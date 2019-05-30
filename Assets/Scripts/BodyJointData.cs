@@ -48,15 +48,21 @@ public class BodyJointData : MonoBehaviour
     [Header("left")]
     public Kinect.JointType L_JointTrackRef;
     public Kinect.JointType L_JointToTrack;
+    public Kinect.JointType L2_JointToTrack;
     public Vector3 L_JointToTrackPos;
+    public Vector3 L2_JointToTrackPos;
     public Text L_VectorToDisplay;
+    public Text L2_VectorToDisplay;
 
 
     [Header("right")]
     public Kinect.JointType R_JointTrackRef;
     public Kinect.JointType R_JointToTrack;
+    public Kinect.JointType R2_JointToTrack;
     public Vector3 R_JointToTrackPos;
+    public Vector3 R2_JointToTrackPos;
     public Text R_VectorToDisplay;
+    public Text R2_VectorToDisplay;
     
     void Update () 
     {
@@ -149,9 +155,11 @@ public class BodyJointData : MonoBehaviour
     {   
         Vector3 L_TrackPtSrc  = Vector3.zero; 
         Vector3 L_TrackPtDest = Vector3.zero;
+        Vector3 L2_TrackPtDest = Vector3.zero;
 
         Vector3 R_TrackPtSrc  = Vector3.zero; 
         Vector3 R_TrackPtDest = Vector3.zero;
+        Vector3 R2_TrackPtDest = Vector3.zero;
        
         for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
         {
@@ -182,18 +190,28 @@ public class BodyJointData : MonoBehaviour
                 }
 
                 if(jt == L_JointToTrack) 
-                {
-                    
+                {  
 
                     L_TrackPtDest = GetVector3FromJoint(targetJoint.Value) - jointObj.localPosition;
                 }
 
+                if(jt == L2_JointToTrack) 
+                {  
+                    L2_TrackPtDest = GetVector3FromJoint(targetJoint.Value) - jointObj.localPosition;
+                }
+
                 //L_VectorToDisplay.text = (L_TrackPtDest-L_TrackPtSrc).ToString();
-                L_VectorToDisplay.text = (L_TrackPtDest).ToString();
                 L_JointToTrackPos = (L_TrackPtDest-L_TrackPtSrc);
+                L2_JointToTrackPos = (L2_TrackPtDest-L_TrackPtDest);
+
+                L_VectorToDisplay.text = (GetAngleFromJoint(L_JointToTrackPos)).ToString();
+                L2_VectorToDisplay.text = (GetAngleFromJoint(L2_JointToTrackPos)).ToString();
+
+                //L_VectorToDisplay.text = (L_TrackPtDest).ToString();
+                
 
                 
-                // ***********************                  Right_Tracker       ********************************* //
+                // ***********************              Right_Tracker       ********************************* //
  
                 if(jt == R_JointTrackRef)
                 {
@@ -206,9 +224,23 @@ public class BodyJointData : MonoBehaviour
                     R_TrackPtDest = GetVector3FromJoint(targetJoint.Value) - jointObj.localPosition;
                 }
 
-                //R_VectorToDisplay.text = (R_TrackPtDest - R_TrackPtSrc).ToString();
-                R_VectorToDisplay.text = (R_TrackPtDest).ToString();
+                if(jt == R2_JointToTrack) 
+                {
+
+                    R2_TrackPtDest = GetVector3FromJoint(targetJoint.Value) - jointObj.localPosition;
+                }
+
+                //R_VectorToDisplay.text = (R_TrackPtDest - R_TrackPtSrc).ToString();                
                 R_JointToTrackPos = (R_TrackPtDest - R_TrackPtSrc);
+                R2_JointToTrackPos = (R2_TrackPtDest - R_TrackPtDest);
+                
+                VirtualHumanBehaviour.Instance.R_Ang = GetAngleFromJoint(R_JointToTrackPos);
+                VirtualHumanBehaviour.Instance.R2_Ang = GetAngleFromJoint(R2_JointToTrackPos);
+
+                R_VectorToDisplay.text = (GetAngleFromJoint(R_JointToTrackPos)).ToString();
+                R2_VectorToDisplay.text = (GetAngleFromJoint(R2_JointToTrackPos)).ToString();
+
+                //R_VectorToDisplay.text = (R_TrackPtDest).ToString();
 
 
                  // ******************************************************************************************** //
@@ -224,6 +256,19 @@ public class BodyJointData : MonoBehaviour
         }
     }
     
+    private Vector2 GetAngleFromJoint(Vector3 _jointsdata)
+    {   
+        Vector2 _angle = Vector2.zero;
+
+        float _r = Mathf.Pow( _jointsdata.x * _jointsdata.x + _jointsdata.y * _jointsdata.y + _jointsdata.z * _jointsdata.z, 0.5f);
+        
+        if(_r != 0)
+            _angle = new Vector2( Mathf.Atan2(_jointsdata.y, _jointsdata.x) * Mathf.Rad2Deg ,  Mathf.Acos(_jointsdata.z/(_r)) * Mathf.Rad2Deg);
+
+        return _angle;
+    }
+
+
     private static Color GetColorForState(Kinect.TrackingState state)
     {
         switch (state)
