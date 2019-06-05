@@ -1290,7 +1290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1427328964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2235,8 +2235,12 @@ MonoBehaviour:
   isAnimating: 0
   R_JointRefVector: {x: 0, y: 0, z: 0}
   AudioClips:
-  - {fileID: 8300000, guid: 57bf8cb52e5a4fd4d8e32cc3f76dfe0c, type: 3}
-  - {fileID: 8300000, guid: db6f910a3b7e80940bb4ac1f60d23b97, type: 3}
+  - {fileID: 8300000, guid: 90bead3f64c5ede4bab1b4dfc3ecbb29, type: 3}
+  - {fileID: 8300000, guid: 5f5506989e5ee7845a1fed6d5c013e6f, type: 3}
+  L_Ang: {x: 0, y: 0}
+  L2_Ang: {x: 0, y: 0}
+  R_Ang: {x: 0, y: 0}
+  R2_Ang: {x: 0, y: 0}
 --- !u!82 &2088735803
 AudioSource:
   m_ObjectHideFlags: 0

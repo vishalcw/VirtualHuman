@@ -68,11 +68,11 @@ public class VirtualHumanBehaviour : MonoBehaviour
 
    private void CheckForRHello()
    {
-       if( R_Ang.x >= -155f && R_Ang.x <= -115f && R_Ang.y >= 70f && R_Ang.y <= 110f)
+       if( ( (R_Ang.x >= 115f && R_Ang.x <= 155f) ||  (R_Ang.x >= -155f && R_Ang.x <= -115f)) && R_Ang.y >= 50f && R_Ang.y <= 110f)
        {
-           if( R2_Ang.x >= -65f && R2_Ang.x <= -25f && R2_Ang.y >= 70f && R2_Ang.y <= 110f)
+           if( R2_Ang.x >= -50f && R2_Ang.x <= -15f && R2_Ang.y >= 70f && R2_Ang.y <= 110f)
            {
-               StartCoroutine(VAnimate("hello", 0));
+               StartCoroutine(VAnimate("hello", 1));
            }
        }
    }
